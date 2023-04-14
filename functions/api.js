@@ -7,7 +7,6 @@ require('dotenv').config();
 const serverless = require('serverless-http')
 const router = express.Router()
 
-app.use('./netlify/functions/api', router)
 app.use(express.json())
 app.use(cors())
 app.use(express.urlencoded({ extended: true }));
@@ -20,8 +19,8 @@ router.get('/', (req, res) => {
 router.post(
     '/register', async (req, res) => {
         try {
-            const { email, password } = req.body.data;
             console.log("req body", req.body)
+            const { email, password } = req.body.data;
             console.log("email password", email, password)
             if (email && password) {
                 const response = await CreateUser(email, password)
@@ -73,9 +72,9 @@ router.post(
     }
 )
 
-
 app.listen(port, () => {
-    console.log(`Server listening on port ${port}`);
+    console.log("server started on ", port)
 })
 
+app.use('/.netlify/functions/api', router)
 module.exports.handler = serverless(app)

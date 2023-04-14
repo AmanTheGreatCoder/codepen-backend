@@ -2,9 +2,10 @@
   "name": "codepen-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "api.js",
   "scripts": {
-    "build": "netlify deploy --prod"
+    "build": "netlify deploy --prod",
+    "start": "nodemon ./functions/api.js"
   },
   "author": "",
   "license": "ISC",
