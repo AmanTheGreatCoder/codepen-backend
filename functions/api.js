@@ -4,17 +4,20 @@ const cors = require('cors')
 const port = process.env.PORT || 5000;
 const { CreateUser, GetUser } = require('./db');
 require('dotenv').config();
+const serverless = require('serverless-http')
+const router = express.Router()
 
+app.use('./netlify/functions/api', router)
 app.use(express.json())
 app.use(cors())
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'))
 
-app.get('/', (req, res) => {
+router.get('/', (req, res) => {
     res.json('Hello world')
 })
 
-app.post(
+router.post(
     '/register', async (req, res) => {
         try {
             const { email, password } = req.body.data;
@@ -43,7 +46,7 @@ app.post(
     }
 )
 
-app.post(
+router.post(
     '/login', async (req, res) => {
         try {
             console.log("req body", req.body)
@@ -74,3 +77,5 @@ app.post(
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
 })
+
+module.exports.handler = serverless(app)
